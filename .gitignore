@@ -1,0 +1,5 @@
+my_settings.py
+*.csv
+*.pyc
+
+__pychache__/
