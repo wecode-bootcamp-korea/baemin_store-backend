@@ -7,7 +7,7 @@ from django.http    import JsonResponse
 from django.views   import View
 
 from user.models    import User
-from decorators      import utils
+from decorators     import utils
 from my_settings    import SECRET_KEY, ALGORITHM
 
 
@@ -32,13 +32,12 @@ class SignUpView(View):
 
             if not utils.username_validation(name):
                 return JsonResponse({"MESSAGE":'NOT VALID NAME'}, status=400)
-                # return print(1)
-           
+
             if not utils.phone_validation(phone):
-                return JsonResponse({"MESSAGE":'NOT VALID phone'}, status=400)
+                return JsonResponse({"MESSAGE":'NOT VALID PHONE'}, status=400)
             
             if utils.check_duplication(account=account,email=email, phone=phone): 
-                return JsonResponse({'MESSAGE': 'INFORMATION REGISTERED ALREADY!'}, status=400)
+                return JsonResponse({'MESSAGE': 'INFORMATION REGISTERED ALREADY!'}, status=409)
 
             hash_pwd = bcrypt.hashpw(password.encode('utf-8'),bcrypt.gensalt()).decode() 
 
@@ -69,6 +68,7 @@ class LoginView(View):
 
             if signup_db.filter(account = data['account']).exists():
                 login_id = User.objects.get(account = data['account'])
+
                 if bcrypt.checkpw(password.encode('utf-8'), login_id.password.encode('utf-8')):
                     user_token = jwt.encode({'user_id': login_id.id}, SECRET_KEY, algorithm=ALGORITHM)
                     return JsonResponse({'TOKEN':user_token}, status=200)

@@ -14,9 +14,7 @@ def check_duplication(account, email,phone):
     return User.objects.filter(Q(account=account) | Q(email=email) | Q(phone=phone)).exists()
 
 def account_validation(account):
-    print(account,'======================================')
-
-    REGEX_ACCOUNT = '(?i)^(?=.*[a-z])[a-z0-9]{8,20}$'
+    REGEX_ACCOUNT = '(?i)^(?=.*[a-z])[a-z0-9]{4,20}$'
     if not re.search(REGEX_ACCOUNT, account):
         return False
     return True
@@ -41,20 +39,17 @@ def phone_validation(phone):
 
 def password_check(password):
     if len(password)<8 and len(password)>=16:
-        return JsonResponse({'메세지':'비밀번호는 8자 이상 15자 이하로 설정 가능합니다.'}, status=412)
+        return JsonResponse({'MESSAGE':' PASSWORD SHOULD BE OVER 8 AND UNDER 17 '}, status=412)
     
     if not re.findall('[0-9]',password) and (not re.findall('[a-z]',password) or not re.findall('[A-Z]',password)):
-        return JsonResponse({'메세지':'비밀 번호는 숫자, 영문 대소문자로 구성 되어야합니다.'}, status=412)
+        return JsonResponse({'MESSAGE':'PASSWORD SHOULD BE ONLY ALPHABET AND DIGITS .'}, status=412)
     
     if re.search('[@$!%*#?&]+', password) is None:
-        return JsonResponse({'메세지':'비밀 번호는 1개 이상의 특수문자(@$!%*#?&)를 포함해야합니다.'}, status=412)
+        return JsonResponse({'MESSAGE':'PASSWORD INCLUDE AT LEAST 1 CHARACTER'}, status=412)
     
     return True
 
-
-
-
-# def login_required(func):
+def login_required(func):
     def wrapper(self, request, *args, **kwargs):
         try:
             token        = request.headers['Authorization']
@@ -63,6 +58,6 @@ def password_check(password):
             setattr(request, 'user', User.objects.get(id=['user_id']))
 
         except jwt.DecodeError:
-            return JsonResponse({'메시지':''}, status=400)
+            return JsonResponse({'MESSAGE':'JWT DECODE ERROR'}, status=400)
         return func(request, *args, **kwargs)
     return wrapper
