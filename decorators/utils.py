@@ -4,13 +4,13 @@ import json
 from django.http    import JsonResponse
 
 from user.models     import User
-from baemin.settings import SECRET_KEY, ALGORITHM
+from baemin.settings import SECRET_KEY
 
 def login_required(func):
     def wrapper(self, request, *args, **kwargs):
         try:
             access_token = request.headers['Authorization']
-            payload      = jwt.decode(access_token, SECRET_KEY, algorithms=ALGORITHM) 
+            payload      = jwt.decode(access_token, SECRET_KEY, algorithms='HS256') 
             user         = User.object.get(id=payload['user_id'])
             request.user = user
         
