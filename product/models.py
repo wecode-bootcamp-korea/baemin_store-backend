@@ -18,6 +18,7 @@ class Product(models.Model):
 	hashtags 	  = models.ManyToManyField('HashTag', through='ProductHashTag')
 	product_sales = models.ManyToManyField('Sale',through='ProductSale')
 
+
 	class Meta: 
 		db_table = 'products'
 
@@ -61,6 +62,7 @@ class ProductSale(models.Model):
 	product	= models.ForeignKey('Product', on_delete=models.CASCADE)
 	sale 	= models.ForeignKey('Sale', on_delete=models.CASCADE)
 	is_sale = models.BooleanField(default= False)
+
 
 	class Meta: 
 		db_table = 'product_sales'

@@ -10,6 +10,7 @@ class User(models.Model):
     update_at    = models.DateField(auto_now=True)
     liked        = models.ManyToManyField('product.Product', through='product.Like',null=True)
 
+
     class Meta:
       db_table = 'users'
 
