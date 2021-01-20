@@ -16,9 +16,9 @@ class User(models.Model):
 
 
 class Address(models.Model):
-    user     = models.ForeignKey('User', on_delete=models.CASCADE)
+    user     = models.ForeignKey('User', on_delete=models.CASCADE, related_name='addresses', null=True)
     name     = models.CharField(max_length=100)
-    reciever = models.CharField(max_length=45)
+    receiver = models.CharField(max_length=45)
 
     class Meta:
       db_table = 'addresses'
