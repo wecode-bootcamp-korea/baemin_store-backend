@@ -11,7 +11,7 @@ from decorators.utils        import login_required
 import operator
 
 class ProductListView(View):  
-    def get(self,request, catCd, sorting):
+    def get(self,request, categoryId, sorting):
         try:
             items_per_page = 16
             sort_type = {
@@ -19,10 +19,10 @@ class ProductListView(View):
                 'high_price':'-price',
                 'new':'create_at'
                 }
-            if catCd ==0:
+            if categoryId ==0:
                 products = Product.objects.all().order_by(sort_type[sorting])
             else:
-                products = Product.objects.filter(category_id=catCd).order_by(sort_type[sorting])
+                products = Product.objects.filter(category_id=categoryId).order_by(sort_type[sorting])
             
             products_count  = products.count()
             product_list = []
