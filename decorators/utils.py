@@ -1,5 +1,4 @@
 import jwt
-<<<<<<< HEAD
 import json
 import re
 
@@ -61,7 +60,6 @@ def login_required(func):
         
         except jwt.DecodeError:
             return JsonResponse({'MESSAGE':'JWT DECODE ERROR'}, status=400)
-
         except TypeError:
             return JsonResponse({"MESSAGE":"LOGIN_REQUIRED"}, status = 401)
         except User.DoesNotExist:
