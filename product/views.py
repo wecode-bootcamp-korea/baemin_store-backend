@@ -11,7 +11,6 @@ from decorators.utils        import login_required
 import operator
 
 class ProductListView(View):  
-    # @login_required
     def get(self,request, catCd, sorting):
         try:
             items_per_page = 16
@@ -30,18 +29,6 @@ class ProductListView(View):
             page_list = []
             products.order_by('price')
             
-            # for i in products:
-            #     # if Sale.objects.filter(products_id=products.id).exists():
-            #         sales_status = True
-            #         product_list.append(
-            #             {
-            #                 'name'          :i.name,
-            #                 'main_image'    :i.main_image,
-            #                 'price'         :i.price,
-            #                 'money_replace' :i.money_replace,
-            #                 # 'sales_status'  :i.
-            #             }
-            #         )
             for items in products:   
                 item = {
                             'name'          :items.name,
@@ -50,7 +37,6 @@ class ProductListView(View):
                             'money_replace' :items.money_replace,
                             'create_at'     :items.create_at,
                         }
-                page_list.append(item)
 
                 if len(page_list) == items_per_page:
                     product_list.append(page_list)

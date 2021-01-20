@@ -16,11 +16,26 @@ class Product(models.Model):
 	update_at     = models.DateTimeField(auto_now=True)
 	tags 		  = models.ManyToManyField('Tag', through='ProductTag')
 	hashtags 	  = models.ManyToManyField('HashTag', through='ProductHashTag')
-	product_sales = models.ManyToManyField('Sale',through='ProductSale')
 
 
 	class Meta: 
 		db_table = 'products'
+
+class ProductSale(models.Model):
+	product	= models.ForeignKey('Product', on_delete=models.CASCADE)
+	sale 	= models.ForeignKey('Sale', on_delete=models.CASCADE)
+	is_sale = models.BooleanField(default= True)
+
+
+	class Meta: 
+		db_table = 'product_sales'
+
+class Sale(models.Model):
+	sales_rate 	  = models.DecimalField(max_digits=3, decimal_places=2)
+	# product_sales = models.ManyToManyField('Product', related_name='product_sales' ,through='ProductSale')
+
+	class Meta: 
+		db_table = 'sales'
 
 class Stock(models.Model):
 	product	 = models.ForeignKey('Product', on_delete=models.CASCADE)
@@ -58,21 +73,8 @@ class HashTag(models.Model):
 		db_table = 'hash_tags'
 
 
-class ProductSale(models.Model):
-	product	= models.ForeignKey('Product', on_delete=models.CASCADE)
-	sale 	= models.ForeignKey('Sale', on_delete=models.CASCADE)
-	is_sale = models.BooleanField(default= False)
 
 
-	class Meta: 
-		db_table = 'product_sales'
-
-
-class Sale(models.Model):
-	sales_rate = models.DecimalField(max_digits=3, decimal_places=2)
-
-	class Meta: 
-		db_table = 'sales'
 
 
 class DetailImage(models.Model):
@@ -109,6 +111,3 @@ class ReviewImage(models.Model):
 
 	class Meta:
 		db_table  = 'review_images'
-
-	
-	
