@@ -49,6 +49,7 @@ def password_check(password):
     
     return True
 
+
 def login_required(func):
     def wrapper(self, request, *args, **kwargs):
         try:

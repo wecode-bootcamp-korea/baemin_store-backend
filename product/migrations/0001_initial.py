@@ -23,17 +23,6 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='DetailImage',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('detail_url', models.CharField(max_length=45)),
-                ('image_flow', models.IntegerField(default=0)),
-            ],
-            options={
-                'db_table': 'detail_images',
-            },
-        ),
-        migrations.CreateModel(
             name='HashTag',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),

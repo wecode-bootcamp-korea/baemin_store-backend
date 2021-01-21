@@ -79,9 +79,4 @@ class Migration(migrations.Migration):
             name='user',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='user.user'),
         ),
-        migrations.AddField(
-            model_name='detailimage',
-            name='product',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='product.product'),
-        ),
     ]
