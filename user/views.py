@@ -70,7 +70,7 @@ class LoginView(View):
             if bcrypt.checkpw(password.encode('utf-8'), password_in_db.encode('utf-8')):
                 payload = {"user_id":user.id}
                 login_token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
-                return JsonResponse({'MESSAGE':'SUCCESS','TOKEN':login_token}, status=200, safe=True)
+                return JsonResponse({'MESSAGE':'SUCCESS','TOKEN':login_token.decode('utf-8')}, status=200, safe=True)
             return JsonResponse({'MESSAGE':'INVALID ACCOUNT'}, status= 401)
 
         except KeyError :
