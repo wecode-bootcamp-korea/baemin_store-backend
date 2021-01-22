@@ -12,8 +12,10 @@ from product.utils           import sale_options
 import operator
 
 class ProductListView(View):  
-    def get(self,request, categoryId, sorting):
+    def get(self,request):
         try:
+            categoryId = request.GET["categoryId"]
+            sorting = request.GET["sorting"]
             items_per_page = 16
             sort_type = {
                 'all'      :'id',
@@ -64,8 +66,9 @@ class ProductListView(View):
 
 
 class ProductDetailView(View):
-    def get(self,request,productId):
+    def get(self,request):
         try:
+            productId = request.GET["productId"]
             product=Product.objects.select_related("on_sales").get(id=productId)
             sales_option=sale_options(product)
             detail_urls=[]
