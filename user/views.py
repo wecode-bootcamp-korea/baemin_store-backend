@@ -78,4 +78,4 @@ class LoginView(View):
         except ValueError:
             return JsonResponse({'MESSAGE':'VALUE ERROR'},status=400)
         except User.DoesNotExist:
-            return JsonResponse({"error": "ACCOUNT NOT EXISTS."}, status=404)
+            return JsonResponse({"ERROR": "ACCOUNT NOT EXISTS."}, status=404)
