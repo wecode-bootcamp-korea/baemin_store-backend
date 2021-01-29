@@ -1,9 +1,19 @@
 import jwt
+import json
+import re
 
-from django.http    import JsonResponse
+from django.http import JsonResponse
+from django.db.models import Q
 
-from user.models     import User
-from baemin.settings import SECRET_KEY, ALGORITHM
+from user.models import User
+
+from my_settings import ALGORITHM, SECRET_KEY
+from decorators  import utils
+
+def check_duplication(account, email,phone):
+    return User.objects.filter(Q(account=account) | Q(email=email) | Q(phone=phone)).exists()
+
+
 
 def login_required(func):
     def wrapper(self, request, *args, **kwargs):
@@ -20,4 +30,5 @@ def login_required(func):
             return JsonResponse({"MESSAGE":"LOGIN_REQUIRED"}, status = 401)
         except User.DoesNotExist:
             return JsonResponse({"MESSAGE":"USER_DOES_NOT_EXIST"}, status = 401)
+        return func(request, *args, **kwargs)
     return wrapper
